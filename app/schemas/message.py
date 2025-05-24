@@ -1,7 +1,9 @@
+# app/schemas/message.py
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 from ..models.message import MessageStatus
+# from ..schemas.file import AttachmentResponse as FileAttachmentResponse # Opsi: import dari file.py
 
 class MessageBase(BaseModel):
     content: Optional[str] = Field(None, description="Message content")
@@ -10,6 +12,7 @@ class MessageBase(BaseModel):
 
 class MessageCreate(MessageBase):
     conversation_id: str = Field(..., description="Conversation ID")
+    client_message_id: str = Field(..., description="Client-generated unique ID for message tracking") # Tambahkan ini
 
 class MessageUpdate(BaseModel):
     content: str = Field(..., description="Updated message content")
@@ -23,10 +26,12 @@ class MessageReactionResponse(BaseModel):
     username: str
     emoji: str
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
+# Definisi AttachmentResponse yang lebih lengkap, jika Anda tidak mengimpor dari file.py
+# Jika Anda mengimpor dari file.py, Anda tidak perlu ini.
 class AttachmentResponse(BaseModel):
     id: str
     file_url: str
@@ -37,7 +42,7 @@ class AttachmentResponse(BaseModel):
     thumbnail_url: Optional[str]
     duration: Optional[int]
     uploaded_at: datetime
-    
+
     class Config:
         from_attributes = True
 
@@ -45,8 +50,8 @@ class MessageResponse(MessageBase):
     id: str
     conversation_id: str
     sender_id: str
-    sender_username: str
-    sender_avatar: Optional[str]
+    sender_username: str # Tambahkan ini
+    sender_avatar: Optional[str] # Tambahkan ini
     status: MessageStatus
     is_deleted: bool
     is_edited: bool
@@ -57,7 +62,7 @@ class MessageResponse(MessageBase):
     attachments: List[AttachmentResponse] = []
     reactions: List[MessageReactionResponse] = []
     read_by_count: int = 0
-    
+
     class Config:
         from_attributes = True
 
@@ -70,3 +75,19 @@ class MessagesResponse(BaseModel):
     page: int
     per_page: int
     has_more: bool
+
+# Definisi baru untuk pesan real-time yang akan dikirim melalui Pusher
+class RealTimeMessage(BaseModel):
+    id: str # ID pesan dari database
+    client_message_id: Optional[str] = None
+    conversation_id: str
+    sender_id: str
+    sender_username: str # Tambahkan ini
+    sender_avatar: Optional[str] = None # Tambahkan ini
+    content: str
+    message_type: str
+    sent_at: datetime
+    is_edited: bool = False
+    is_deleted: bool = False
+    reply_to_message_id: Optional[str] = None
+    status: str # Tambahkan ini jika Anda ingin mengirim status pesan

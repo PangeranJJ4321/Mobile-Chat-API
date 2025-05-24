@@ -8,8 +8,7 @@ from app.api import (
     conversations,
     messages,
     users,
-    files,
-    websocket
+    files
 )
 
 app = FastAPI(
@@ -38,7 +37,6 @@ app.include_router(users.router, prefix="/api", tags=["Users"])
 app.include_router(conversations.router, prefix="/api/conversations", tags=["Conversations"])
 app.include_router(messages.router, prefix="/api/messages", tags=["Messages"])
 app.include_router(files.router, prefix="/api", tags=["Files"])
-app.include_router(websocket.router, prefix="/api/ws", tags=["WebSocket"])
 
 @app.get("/")
 async def root():

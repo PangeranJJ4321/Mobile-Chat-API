@@ -53,6 +53,13 @@ class Settings(BaseSettings):
     
     
     BASE_URL: str 
+
+    # Pengaturan Pusher baru
+    PUSHER_APP_ID: str
+    PUSHER_APP_KEY: str
+    PUSHER_APP_SECRET: str
+    PUSHER_APP_CLUSTER: str
+    
     class Config:
         env_file = ".env"
 

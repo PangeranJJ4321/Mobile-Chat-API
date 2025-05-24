@@ -1,4 +1,3 @@
-# app/services/websocket_manager.py
 from typing import Dict, List, Optional
 from fastapi import WebSocket, WebSocketDisconnect
 import json
