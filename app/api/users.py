@@ -1,14 +1,9 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
-from typing import List, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# Import models dan schemas dari file yang disediakan
-from app.models.user import User, UserRole
-from app.models.settings import UserSettings
-from app.models.blocking import BlockedUser
 from app.database import get_db 
-from app.schemas.user import UserCreate, UserUpdate, UserResponse, UserSettingsUpdate, UserSettingsResponse, BlockUserRequest 
+from app.schemas.user import UserUpdate, UserResponse, UserSettingsUpdate, UserSettingsResponse, BlockUserRequest 
 
 # Import fungsi CRUD dari crud.py
 from app.services.user_service import (
@@ -20,7 +15,6 @@ from app.services.user_service import (
     block_user,
     unblock_user,
     get_blocked_users,
-    create_user # Untuk contoh, jika diperlukan pendaftaran user
 )
 
 router = APIRouter()

@@ -4,10 +4,10 @@ from sqlalchemy import or_
 import bcrypt
 from typing import List, Optional
 
-from app.models.user import User, UserRole
+from app.models.user import User
 from app.models.settings import UserSettings
 from app.models.blocking import BlockedUser
-from app.schemas.user import UserCreate, UserSettingsUpdate, UserUpdate
+from app.schemas.user import UserSettingsUpdate, UserUpdate
 
 
 # Fungsi async untuk mendapatkan user berdasarkan ID
@@ -26,23 +26,6 @@ async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
 async def get_user_by_username(db: AsyncSession, username: str) -> Optional[User]:
     result = await db.execute(select(User).where(User.username == username))
     return result.scalars().first()
-
-
-# Fungsi async untuk membuat user baru
-async def create_user(db: AsyncSession, user: UserCreate) -> User:
-    hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-    db_user = User(
-        username=user.username,
-        email=user.email,
-        password_hash=hashed_password,
-        profile_picture=user.profile_picture,
-        role=user.role
-    )
-    db.add(db_user)
-    await db.commit()
-    await db.refresh(db_user)
-    await create_user_settings(db, user_id=db_user.id)
-    return db_user
 
 
 # Fungsi async untuk update profile user

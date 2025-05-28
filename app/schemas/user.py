@@ -3,13 +3,6 @@ from typing import Optional
 from datetime import datetime
 from ..models.user import UserRole
 
-class UserCreate(BaseModel):
-    username: str = Field(..., min_length=3, max_length=50)
-    email: EmailStr
-    password: str = Field(..., min_length=6) # Kata sandi akan di-hash di CRUD
-    profile_picture: Optional[str] = None
-    role: Optional[UserRole] = UserRole.USER
-
 # Pydantic model untuk memperbarui profil pengguna
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=50)
