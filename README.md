@@ -41,7 +41,7 @@ Fitur reset password diimplementasikan dengan antarmuka web terpisah yang dibang
     File `reset-password.zip` berisi **kode sumber (source code) dan dependensi** dari aplikasi React Vite. Ekstrak file ini ke direktori terpisah (misalnya, `frontend-reset-password/`) di lokasi mana pun di sistem Anda.
 
     ```bash
-    unzip reset-password.zip -d frontend-reset-password/
+    unzip reset-password_frontend.zip -d frontend-reset-password/
     ```
 
 2.  **Jalankan Aplikasi Web Reset Password**:
