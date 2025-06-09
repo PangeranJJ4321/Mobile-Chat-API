@@ -1,6 +1,8 @@
-# MyChat Backend (FastAPI)
+# ChatOI Backend (FastAPI)
 
 Ini adalah layanan backend untuk aplikasi ChatOI, dibangun menggunakan FastAPI. Layanan ini menyediakan API untuk fitur-fitur seperti otentikasi pengguna, manajemen percakapan, pengiriman pesan real-time, dan lainnya.
+
+### Link Repository ChatOI App Mobile (Android) : [**ChatOI**](https://github.com/PangeranJJ4321/ChatOI-Mobile-App)
 
 ## Teknologi
 
