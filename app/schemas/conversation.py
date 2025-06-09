@@ -24,12 +24,16 @@ class ParticipantBase(BaseModel):
 class ParticipantAdd(BaseModel):
     user_ids: List[str] = Field(..., min_items=1, description="List of user IDs to add")
 
+class ParticipantMuteUpdate(BaseModel):
+    is_muted: bool = Field(..., description="Whether the participant is muted for this conversation")
+
 class ParticipantUpdate(BaseModel):
     role: ParticipantRole
 
 class ParticipantResponse(BaseModel):
     user_id: str
     username: str
+    email: Optional[str]
     role: ParticipantRole
     joined_at: datetime
     last_seen_at: Optional[datetime]
@@ -67,6 +71,12 @@ class ConversationListResponse(BaseModel):
     participants_count: int = 0
     is_muted: bool = False
     is_pinned: bool = False
+    # --- Tambahan untuk chat pribadi ---
+    other_participant_id: Optional[str] = None
+    other_participant_username: Optional[str] = None
+    other_participant_avatar: Optional[str] = None
+    other_participant_email: Optional[str] = None
+    # -----------------------------------
     
     class Config:
         from_attributes = True

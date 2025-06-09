@@ -1,4 +1,3 @@
-# app/api/routes/files.py
 import mimetypes
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
 from fastapi.responses import FileResponse
@@ -6,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 import os
 from pathlib import Path
-
+import uuid
+from datetime import datetime
 from app.database import get_db
 from app.services.file_service import FileService
 from app.core.security import get_current_user 
@@ -28,6 +28,15 @@ async def upload_avatar(
 ):
     """Upload user avatar"""
     return await file_service.upload_avatar(file, current_user.id)
+
+@router.post("/upload-group-avatar", response_model=FileUploadResponse)
+async def upload_group_avatar_endpoint(
+    file: UploadFile = File(...),
+    file_service: FileService = Depends(get_file_service)
+):
+    
+    return await file_service.upload_group_avatar(file)
+
 
 @router.post("/attachments/{message_id}", response_model=AttachmentResponse)
 async def upload_attachment(

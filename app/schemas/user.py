@@ -7,7 +7,7 @@ from ..models.user import UserRole
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=50)
     email: Optional[EmailStr] = None
-    password: Optional[str] = Field(None, min_length=6) # Kata sandi akan di-hash di CRUD
+    password: Optional[str] = Field(None, min_length=6) 
     profile_picture: Optional[str] = None
     is_online: Optional[bool] = None
 

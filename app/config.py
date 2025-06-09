@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     AWS_REGION: str = "us-east-1"
     
     # CORS
-    ALLOWED_ORIGINS: list = ["http://localhost:3000", "http://localhost:8080"]
+    ALLOWED_ORIGINS: list = ["http://localhost:5173", "http://localhost:8080"]
     
     # Environment
     ENVIRONMENT: str = "development"

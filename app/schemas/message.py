@@ -1,5 +1,5 @@
 # app/schemas/message.py
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 from typing import Optional, List
 from datetime import datetime
 from ..models.message import MessageStatus
@@ -30,8 +30,7 @@ class MessageReactionResponse(BaseModel):
     class Config:
         from_attributes = True
 
-# Definisi AttachmentResponse yang lebih lengkap, jika Anda tidak mengimpor dari file.py
-# Jika Anda mengimpor dari file.py, Anda tidak perlu ini.
+
 class AttachmentResponse(BaseModel):
     id: str
     file_url: str
@@ -46,12 +45,20 @@ class AttachmentResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class UserInfo(BaseModel):
+    """Simple user info for message responses"""
+    id: str
+    username: str
+    profile_picture: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
 class MessageResponse(MessageBase):
     id: str
     conversation_id: str
     sender_id: str
-    sender_username: str # Tambahkan ini
-    sender_avatar: Optional[str] # Tambahkan ini
+    sender: Optional[UserInfo] = None  
     status: MessageStatus
     is_deleted: bool
     is_edited: bool
@@ -59,10 +66,25 @@ class MessageResponse(MessageBase):
     edited_at: Optional[datetime]
     deleted_at: Optional[datetime]
     reply_to: Optional['MessageResponse'] = None
-    attachments: List[AttachmentResponse] = []
+    attachments: List['AttachmentResponse'] = []
     reactions: List[MessageReactionResponse] = []
     read_by_count: int = 0
+    client_message_id: Optional[str] = None 
 
+    @computed_field
+    @property
+    def sender_username(self) -> str:
+        if self.sender and self.sender.username:
+            return self.sender.username
+        return f"User {self.sender_id[:8]}..."
+    
+    @computed_field 
+    @property
+    def sender_avatar(self) -> Optional[str]:
+        if self.sender:
+            return self.sender.profile_picture
+        return None 
+    
     class Config:
         from_attributes = True
 

@@ -29,6 +29,7 @@ COPY . .
 
 # Buat direktori upload dengan permission yang lebih aman
 RUN mkdir -p /app/uploads/avatars \
+             /app/uploads/groups \
              /app/uploads/attachments/images \
              /app/uploads/attachments/videos \
              /app/uploads/attachments/audio \

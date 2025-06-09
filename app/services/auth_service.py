@@ -112,6 +112,24 @@ class AuthService:
             expires_in=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
         )
     
+    async def validate_reset_token(self, token: str):
+        """Validates a password reset token without performing a reset."""
+        result = await self.db.execute(
+            select(PasswordResetToken).where(
+                PasswordResetToken.token == token,
+                PasswordResetToken.expires_at > datetime.now(timezone.utc),
+                PasswordResetToken.revoked_at == None
+            )
+        )
+        db_reset_token = result.scalar_one_or_none()
+
+        if not db_reset_token:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, # Use 400 for bad request/invalid token
+                detail="Invalid or expired reset token"
+            )
+        return True # Token is valid
+
     async def refresh_token(self, refresh_token_str: str) -> Token:
         """Refresh access token using refresh token"""
         try:
@@ -262,19 +280,26 @@ class AuthService:
         reset_url = f"{settings.BASE_FRONTEND_URL}/reset-password?token={reset_token_str}"
         
         email_body = f"""
-        Halo {user.username},
-
-        Anda telah meminta untuk mereset kata sandi Anda.
-        Silakan klik tautan berikut untuk mereset kata sandi Anda:
-        {reset_url}
-
-        Tautan ini akan kedaluwarsa dalam {settings.PASSWORD_RESET_TOKEN_EXPIRE_MINUTES} menit.
-
-        Jika Anda tidak meminta reset kata sandi, mohon abaikan email ini.
-
-        Terima kasih,
-        Tim Aplikasi Anda
+        <html>
+        <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; background-color: #f9f9f9; padding: 20px;">
+            <div style="max-width: 600px; margin: auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <h2 style="color: #E11D48;">Hai {user.username} 💌</h2>
+            <p>Kami menerima permintaan untuk mereset password akun ChatOI kamu.</p>
+            <p>Klik tombol di bawah ini untuk mengganti password kamu:</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{reset_url}" style="background-color: #E11D48; color: white; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-weight: bold;">Reset Password</a>
+            </div>
+            <p><strong>Link ini akan kadaluarsa dalam {settings.PASSWORD_RESET_TOKEN_EXPIRE_MINUTES} menit.</strong></p>
+            <hr style="margin: 30px 0;" />
+            <p style="font-size: 14px; color: #777;">
+                Jika kamu tidak merasa meminta reset password, abaikan saja email ini. Tapi kalau kamu butuh bantuan, tim ChatOI siap membantu kamu 💕
+            </p>
+            <p style="font-size: 14px; color: #777;">Salam hangat,<br><strong>Tim ChatOI 💬</strong></p>
+            </div>
+        </body>
+        </html>
         """
+
         
         background_tasks.add_task(
             send_email_async,

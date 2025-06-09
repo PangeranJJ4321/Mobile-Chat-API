@@ -14,6 +14,10 @@ class FileUploadResponse(BaseModel):
     duration: Optional[int] = None  
     uploaded_at: datetime
 
+    class Config:
+        from_attributes = True 
+        use_enum_values = True
+
 class ThumbnailResponse(BaseModel): 
     original_url: str
     thumbnail_url: str
@@ -33,3 +37,4 @@ class AttachmentResponse(BaseModel):
 
     class Config:
         from_attributes = True
+        use_enum_values = True

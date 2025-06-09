@@ -104,27 +104,20 @@ async def verify_token_endpoint(current_user: User = Depends(get_current_user)):
     """Verify if token is valid"""
     return {"valid": True, "user_id": current_user.id}
 
-# ============================================================================
-# app/core/dependencies.py - Auth Dependencies
-# ============================================================================
-from fastapi import Depends, HTTPException, status
-from ..models.user import User, UserRole
-from ..core.security import get_current_active_user
-
-def require_admin(current_user: User = Depends(get_current_active_user)):
-    """Require admin role"""
-    if current_user.role != UserRole.ADMIN:
+@router.get("/validate-reset-token") 
+async def validate_reset_token_endpoint(
+    token: str, 
+    db: AsyncSession = Depends(get_db)
+):
+    """Validate if a password reset token is still valid."""
+    auth_service = AuthService(db)
+    try:
+        await auth_service.validate_reset_token(token)
+        return {"valid": True, "message": "Reset token is valid."}
+    except HTTPException as e:
+        raise e # Re-raise the HTTPException from auth_service
+    except Exception:
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin access required"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An unexpected error occurred during token validation."
         )
-    return current_user
-
-def require_moderator(current_user: User = Depends(get_current_active_user)):
-    """Require moderator or admin role"""
-    if current_user.role not in [UserRole.ADMIN, UserRole.MODERATOR]:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Moderator access required"
-        )
-    return current_user

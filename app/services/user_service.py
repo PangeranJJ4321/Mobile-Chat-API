@@ -3,18 +3,21 @@ from sqlalchemy.future import select
 from sqlalchemy import or_
 import bcrypt
 from typing import List, Optional
-
+from sqlalchemy import select, func, and_, or_, desc
 from app.models.user import User
 from app.models.settings import UserSettings
 from app.models.blocking import BlockedUser
-from app.schemas.user import UserSettingsUpdate, UserUpdate
-
+from app.schemas.user import UserSettingsUpdate, UserUpdate, UserResponse
+from app.models.conversation import Conversation, Participant, ParticipantRole
 
 # Fungsi async untuk mendapatkan user berdasarkan ID
 async def get_user(db: AsyncSession, user_id: str) -> Optional[User]:
     result = await db.execute(select(User).where(User.id == user_id))
     return result.scalars().first()
 
+async def get_all_users(db: AsyncSession) -> List[User]:
+    result = await db.execute(select(User))
+    return result.scalars().all()
 
 # Fungsi async untuk mendapatkan user berdasarkan email
 async def get_user_by_email(db: AsyncSession, email: str) -> Optional[User]:
@@ -145,3 +148,57 @@ async def get_blocked_users(db: AsyncSession, blocker_id: str) -> List[User]:
 
     result_users = await db.execute(select(User).where(User.id.in_(blocked_user_ids)))
     return result_users.scalars().all()
+
+async def get_available_users_for_conversation(
+    db: AsyncSession,
+    conversation_id: str,
+    current_user_id: str,
+    search_query: Optional[str] = None,
+    page: int = 1,
+    per_page: int = 20
+) -> List[UserResponse]:
+    try:
+        offset = (page - 1) * per_page
+
+        # Subquery: ID user yang udah ikut di conversation
+        participant_ids_subquery = select(Participant.user_id).where(
+            Participant.conversation_id == conversation_id
+        ).scalar_subquery()
+
+        # Query: cari user yang belum ikut conversation dan bukan current user
+        base_query = select(User).where(
+            and_(
+                User.id.notin_(participant_ids_subquery),
+                User.id != current_user_id
+            )
+        )
+
+        # Filter pencarian kalau search_query valid
+        if search_query and isinstance(search_query, str) and search_query.strip():
+            search_pattern = f"%{search_query.strip().lower()}%"
+            base_query = base_query.where(
+                or_(
+                    func.lower(User.username).like(search_pattern),
+                    func.lower(User.email).like(search_pattern)
+                )
+            )
+
+        # Urut & paginate
+        query = base_query.order_by(User.username).offset(offset).limit(per_page)
+
+        # Debug: print query untuk debugging (hapus di production)
+        print(f"Query SQL: {query}")
+        print(f"conversation_id: {conversation_id}")
+        print(f"current_user_id: {current_user_id}")
+        print(f"search_query: '{search_query}'")
+
+        # Eksekusi query dengan error handling
+        result = await db.execute(query)
+        users = result.scalars().all()
+
+        return [UserResponse.model_validate(user) for user in users]
+    
+    except Exception as e:
+        print(f"Error in get_available_users_for_conversation: {str(e)}")
+        print(f"Error type: {type(e)}")
+        raise e
