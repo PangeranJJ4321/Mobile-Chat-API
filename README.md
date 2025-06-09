@@ -162,6 +162,3 @@ Fitur reset password diimplementasikan dengan antarmuka web terpisah yang dibang
 
 Selama pengembangan, Anda mungkin ingin menjalankan aplikasi dalam mode *watch* yang akan memuat ulang kode secara otomatis saat ada perubahan. Anda bisa menambahkan opsi `--reload` ke perintah `uvicorn` di `Dockerfile` atau `docker-compose.yml` Anda (misalnya, `CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]`).
 
-## Lisensi
-
-[Pilih lisensi Anda, contoh: MIT License]
