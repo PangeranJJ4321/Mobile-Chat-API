@@ -1,166 +1,258 @@
-# ChatOI Backend (FastAPI)
+<div align="center">
+  <h1>🚀 ChatOI Backend</h1>
+  <p><em>A modern, high-performance backend service for ChatOI chat application built with FastAPI</em></p>
+  
+  <!-- Tech Stack Badges -->
+  <div>
+    <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+    <img src="https://img.shields.io/badge/Python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python">
+    <img src="https://img.shields.io/badge/Docker-0db7ed?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+    <img src="https://img.shields.io/badge/Real--time-Pusher-purple?style=for-the-badge&logo=pusher&logoColor=white" alt="Pusher">
+    <img src="https://img.shields.io/badge/JWT-Auth-black?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT">
+  </div>
+  
+  <br>
+  
+  <!-- Project Links -->
+  <div>
+    <h3>📱 Related Projects</h3>
+    <a href="https://github.com/PangeranJJ4321/ChatOI-Mobile-App">
+      <img src="https://img.shields.io/badge/📱_ChatOI_Mobile-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="ChatOI Mobile App">
+    </a>
+    <br>
+    <img src="https://img.shields.io/badge/Platform-Android-green?style=for-the-badge&logo=android&logoColor=white" alt="Android Platform">
+    <img src="https://img.shields.io/badge/Language-Java-orange?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java Language">
+    <img src="https://img.shields.io/badge/Mobile-App-blue?style=for-the-badge&logo=smartphone&logoColor=white" alt="Mobile App">
+  </div>
+</div>
 
-Ini adalah layanan backend untuk aplikasi ChatOI, dibangun menggunakan FastAPI. Layanan ini menyediakan API untuk fitur-fitur seperti otentikasi pengguna, manajemen percakapan, pengiriman pesan real-time, dan lainnya.
+---
 
-### Link Repository ChatOI App Mobile (Android) : [**ChatOI**](https://github.com/PangeranJJ4321/ChatOI-Mobile-App)
+## ✨ Features
 
-## Teknologi
+- 🔐 **User Authentication** - Secure JWT-based authentication
+- 💬 **Real-time Messaging** - Instant messaging with Pusher integration
+- 🔄 **Password Reset** - Email-based password recovery with React UI
+- 📊 **Database Management** - SQLAlchemy ORM with Alembic migrations
+- 🐳 **Docker Ready** - Containerized deployment with Docker Compose
+- 📚 **API Documentation** - Interactive Swagger UI and ReDoc
+- ⚡ **High Performance** - Built on FastAPI for optimal speed
 
-* **FastAPI**: Kerangka kerja web Python modern, cepat (berkinerja tinggi), siap produksi.
-* **Python 3.x**: Bahasa pemrograman utama.
-* **SQLAlchemy**: Python SQL Toolkit dan Object Relational Mapper (ORM).
-* **Alembic**: Alat migrasi database yang digunakan dengan SQLAlchemy.
-* **PostgreSQL/MySQL (Opsional)**: Database pilihan Anda (sesuai konfigurasi SQLAlchemy Anda).
-* **Pydantic**: Validasi data dan pengaturan.
-* **Uvicorn**: Server ASGI untuk menjalankan aplikasi FastAPI.
-* **Pusher**: Layanan API real-time untuk pesan instan dan notifikasi.
-* **Docker**: Untuk orkestrasi kontainer dan deployment yang mudah.
+---
 
-## Memulai dengan Docker
+## 🛠️ Tech Stack
 
-Cara paling sederhana untuk menjalankan backend ini adalah menggunakan Docker dan Docker Compose.
+| Technology | Description |
+|------------|-------------|
+| **[FastAPI](https://fastapi.tiangolo.com/)** | Modern, fast web framework for building APIs |
+| **[Python 3.x](https://www.python.org/)** | Core programming language |
+| **[SQLAlchemy](https://www.sqlalchemy.org/)** | Python SQL toolkit and ORM |
+| **[Alembic](https://alembic.sqlalchemy.org/)** | Database migration tool |
+| **[PostgreSQL](https://www.postgresql.org/)** | Primary database (configurable) |
+| **[Pydantic](https://pydantic-docs.helpmanual.io/)** | Data validation and settings management |
+| **[Uvicorn](https://www.uvicorn.org/)** | ASGI server for running FastAPI |
+| **[Pusher](https://pusher.com/)** | Real-time messaging service |
+| **[Docker](https://www.docker.com/)** | Containerization and deployment |
 
-### Prasyarat
+---
 
-Pastikan Anda telah menginstal yang berikut ini di mesin Anda:
+## 🚀 Quick Start with Docker
 
-* [**Docker Engine**](https://docs.docker.com/engine/install/)
-* [**Docker Compose**](https://docs.docker.com/compose/install/) (biasanya sudah termasuk dalam instalasi Docker Desktop)
+### Prerequisites
 
-### Konfigurasi Pusher
+Ensure you have the following installed:
 
-Backend ini menggunakan Pusher untuk fungsionalitas pesan real-time. Anda perlu mendaftar akun Pusher dan membuat aplikasi baru untuk mendapatkan kredensial yang diperlukan.
+- 🐳 **[Docker Engine](https://docs.docker.com/engine/install/)**
+- 🔧 **[Docker Compose](https://docs.docker.com/compose/install/)** (included with Docker Desktop)
 
-1.  **Daftar di Pusher**: Kunjungi [Pusher.com](https://pusher.com/) dan buat akun gratis.
-2.  **Buat Aplikasi Baru**: Setelah login, navigasikan ke Dashboard Anda dan buat aplikasi Channels baru.
-3.  **Dapatkan Kredensial**: Catat `APP_ID`, `KEY`, `SECRET`, dan `CLUSTER` yang akan Anda temukan di halaman "App Keys" aplikasi Anda.
+### 🔧 Setup Instructions
 
-### Konfigurasi Fitur Reset Password (React Vite Web UI)
+#### 1. Clone the Repository
 
-Fitur reset password diimplementasikan dengan antarmuka web terpisah yang dibangun menggunakan **React dan Vite**. Backend Anda akan mengirim email yang berisi tautan ke halaman reset password ini.
+```bash
+git clone https://github.com/PangeranJJ4321/Mobile-Chat-API
+cd Mobile-Chat-API
+```
 
-1.  **Ekstrak File Reset Password**:
-    File `reset-password.zip` berisi **kode sumber (source code) dan dependensi** dari aplikasi React Vite. Ekstrak file ini ke direktori terpisah (misalnya, `frontend-reset-password/`) di lokasi mana pun di sistem Anda.
+#### 2. Configure Environment Variables
 
-    ```bash
-    unzip reset-password_frontend.zip -d frontend-reset-password/
-    ```
+```bash
+cp .env.example .env
+```
 
-2.  **Jalankan Aplikasi Web Reset Password**:
-    Setelah diekstrak, navigasikan ke direktori `frontend-reset-password/` dan jalankan aplikasi React Vite. Anda akan memerlukan Node.js dan npm/yarn terinstal.
+Edit the `.env` file with your configurations:
 
-    ```bash
-    cd frontend-reset-password/
-    npm install   # atau yarn install, untuk menginstal dependensi
-    npm run dev   # atau yarn dev, untuk menjalankan development server
-    ```
-    Secara default, ini akan menjalankan aplikasi di `http://localhost:5173/`. Pastikan URL ini sesuai dengan konfigurasi `FRONTEND_RESET_PASSWORD_URL` di file `.env` backend. Contoh URL lengkap yang akan digunakan backend untuk mengirim tautan: `http://localhost:5173/reset-password?token=...`.
+```env
+# 🗄️ Database Configuration
+DATABASE_URL="postgresql://user:password@db:5432/mydatabase"
 
-    **Catatan:** Untuk deployment produksi, Anda akan menjalankan `npm run build` dan menyajikan file-file statis yang dihasilkan melalui server web (misalnya Nginx, Apache, atau layanan hosting statis). Dalam kasus tersebut, `FRONTEND_RESET_PASSWORD_URL` akan menjadi URL server web Anda.
+# 🔐 Security Configuration
+SECRET_KEY="your_super_secret_key_for_jwt"
+ALGORITHM="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-3.  **Konfigurasi Environment Variables Backend**:
-    Pastikan file `.env` backend Anda berisi variabel `FRONTEND_RESET_PASSWORD_URL` yang menunjuk ke URL dasar di mana UI reset password Anda di-host (misalnya, `http://localhost:5173`).
+# 📡 Pusher Configuration
+PUSHER_APP_ID="your_pusher_app_id"
+PUSHER_APP_KEY="your_pusher_app_key"
+PUSHER_APP_SECRET="your_pusher_app_secret"
+PUSHER_APP_CLUSTER="ap1"
 
-### Langkah-langkah Menjalankan Aplikasi
+# 📧 Email Configuration
+MAIL_USERNAME="your_email@example.com"
+MAIL_PASSWORD="your_email_password"
+MAIL_FROM="your_email@example.com"
+MAIL_SERVER="smtp.example.com"
+MAIL_PORT=587
+MAIL_TLS=True
+MAIL_SSL=False
 
-1.  **Kloning Repositori:**
-    ```bash
-    git clone [https://github.com/PangeranJJ4321/Mobile-Chat-API](https://github.com/PangeranJJ4321/Mobile-Chat-API)
-    cd Mobile-Chat-API
-    ```
+# 🌐 Frontend Reset Password URL
+FRONTEND_RESET_PASSWORD_URL="http://localhost:5173/reset-password"
+```
 
-2.  **Konfigurasi Environment Variables Backend:**
-    Buat file `.env` di root proyek Anda berdasarkan `.env.example`. File ini akan berisi variabel lingkungan sensitif seperti kunci rahasia, kredensial database, kredensial Pusher, dan **konfigurasi email untuk reset password**.
+#### 3. Build Docker Images
 
-    ```bash
-    cp .env.example .env
-    ```
-    Buka file `.env` dan sesuaikan nilainya dengan pengaturan lingkungan Anda.
+```bash
+docker-compose build
+```
 
-    **Contoh `.env`:**
-    ```
-    # Database Configuration (Example for PostgreSQL)
-    DATABASE_URL="postgresql://user:password@db:5432/mydatabase" # Pastikan 'db' cocok dengan nama layanan database di docker-compose.yml
+#### 4. Run Database Migrations
 
-    # Application Security Configuration
-    SECRET_KEY="your_super_secret_key_for_jwt" # Ubah ini! Gunakan kunci yang kuat dan unik.
-    ALGORITHM="HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES=30
+```bash
+docker-compose run --rm app alembic upgrade head
+```
 
-    # Pusher Configuration - PENTING! Ganti dengan detail aplikasi Pusher Anda yang sebenarnya.
-    PUSHER_APP_ID="your_pusher_app_id"
-    PUSHER_APP_KEY="your_pusher_app_key"
-    PUSHER_APP_SECRET="your_pusher_app_secret"
-    PUSHER_APP_CLUSTER="ap1" # Contoh: us2, eu, ap1 (sesuai yang Anda pilih di Pusher)
+#### 5. Start the Application
 
-    # Email Configuration for Password Reset (Example for SMTP)
-    MAIL_USERNAME="your_email@example.com"
-    MAIL_PASSWORD="your_email_password"
-    MAIL_FROM="your_email@example.com"
-    MAIL_SERVER="smtp.example.com"
-    MAIL_PORT=587
-    MAIL_TLS=True
-    MAIL_SSL=False
+```bash
+docker-compose up
+```
 
-    # Frontend URL for Password Reset.
-    # This is the base URL where your React Vite reset password UI is hosted.
-    # When running in development mode (npm run dev), this is typically http://localhost:5173/
-    # If your Vite app has a base path like /reset-password, then it would be http://localhost:5173/reset-password
-    FRONTEND_RESET_PASSWORD_URL="http://localhost:5173/reset-password" # SESUAIKAN DENGAN BASE URL VITE ANDA
-    ```
-    *Pastikan untuk menggunakan kunci rahasia yang kuat dan unik untuk `SECRET_KEY` dan ganti semua placeholder dengan kredensial Anda yang sebenarnya.*
+For development with auto-rebuild:
+```bash
+docker-compose up --build
+```
 
-4.  **Bangun Kontainer Docker (tanpa menjalankan):**
-    Ini akan membangun *image* Docker untuk aplikasi Anda, tetapi tidak akan langsung menjalankannya. Ini diperlukan sebelum menjalankan migrasi.
+---
 
-    ```bash
-    docker-compose build
-    ```
+## 🔧 Pusher Configuration
 
-5.  **Jalankan Migrasi Database dengan Alembic:**
-    Setelah *image* dibangun, Anda dapat menjalankan migrasi database menggunakan Alembic di dalam kontainer layanan aplikasi Anda. Asumsikan nama layanan aplikasi Anda di `docker-compose.yml` adalah `app`.
+The backend uses Pusher for real-time messaging functionality.
 
-    ```bash
-    docker-compose run --rm app alembic upgrade head
-    ```
-    **Catatan:** Pastikan layanan database Anda (misalnya, `db` jika Anda menggunakan PostgreSQL di Docker Compose) sudah berjalan sebelum menjalankan migrasi ini. Anda bisa memulai layanan database saja dengan `docker-compose up -d db` jika perlu, lalu jalankan migrasi.
+### Steps:
 
-6.  **Jalankan Kontainer Docker (secara penuh):**
-    Setelah migrasi selesai, Anda dapat memulai semua layanan aplikasi, termasuk FastAPI dan database.
+1. **Sign up** at [Pusher.com](https://pusher.com/) 
+2. **Create a new Channels app** in your dashboard
+3. **Copy credentials** from the "App Keys" section:
+   - `APP_ID`
+   - `KEY` 
+   - `SECRET`
+   - `CLUSTER`
+4. **Update** your `.env` file with these credentials
 
-    ```bash
-    docker-compose up
-    ```
-    Jika Anda ingin membangun ulang *image* secara otomatis setiap kali ada perubahan pada `Dockerfile` atau `requirements.txt`, gunakan `--build`:
-    ```bash
-    docker-compose up --build
-    ```
+---
 
-    Perintah ini akan:
-    * Membuat dan memulai kontainer untuk layanan FastAPI dan layanan database Anda (jika belum berjalan).
-    * Menampilkan log dari semua kontainer di terminal Anda.
+## 🔄 Password Reset Feature
 
-7.  **Akses Aplikasi:**
-    Setelah kontainer backend berjalan, aplikasi FastAPI Anda akan dapat diakses di:
-    `http://localhost:8000`
+The password reset functionality includes a separate React web interface.
 
-    Dokumentasi API interaktif (Swagger UI) akan tersedia di:
-    `http://localhost:8000/docs`
+### Setup Reset Password UI:
 
-    Redoc akan tersedia di:
-    `http://localhost:8000/redoc`
+#### 1. Extract Frontend Files
 
-8.  **Menghentikan Aplikasi:**
-    Untuk menghentikan semua layanan dan menghapus kontainer (tetapi mempertahankan volume data agar database tetap ada), tekan `Ctrl+C` di terminal tempat `docker-compose up` berjalan, lalu jalankan:
-    ```bash
-    docker-compose down
-    ```
-    Jika Anda juga ingin menghapus volume data (misalnya, untuk memulai database dari awal, sangat berguna untuk pengembangan lokal), gunakan:
-    ```bash
-    docker-compose down -v
-    ```
+```bash
+unzip reset-password_frontend.zip -d frontend-reset-password/
+```
 
-## Pengembangan
+#### 2. Install Dependencies & Run
 
-Selama pengembangan, Anda mungkin ingin menjalankan aplikasi dalam mode *watch* yang akan memuat ulang kode secara otomatis saat ada perubahan. Anda bisa menambahkan opsi `--reload` ke perintah `uvicorn` di `Dockerfile` atau `docker-compose.yml` Anda (misalnya, `CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]`).
+```bash
+cd frontend-reset-password/
+npm install
+npm run dev
+```
 
+The React app will run at `http://localhost:5173/`
+
+#### 3. Production Deployment
+
+For production:
+```bash
+npm run build
+```
+
+Serve the built files using Nginx, Apache, or a static hosting service, then update `FRONTEND_RESET_PASSWORD_URL` accordingly.
+
+---
+
+## 📡 API Access
+
+Once running, access your API at:
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **API Base** | `http://localhost:8000` | Main API endpoint |
+| **Swagger UI** | `http://localhost:8000/docs` | Interactive API documentation |
+| **ReDoc** | `http://localhost:8000/redoc` | Alternative API documentation |
+
+---
+
+## 🛑 Stopping the Application
+
+### Graceful Shutdown
+```bash
+# Press Ctrl+C in the terminal, then:
+docker-compose down
+```
+
+### Clean Shutdown (removes data volumes)
+```bash
+docker-compose down -v
+```
+
+---
+
+## 🔧 Development Mode
+
+For development with auto-reload, modify your `docker-compose.yml` or `Dockerfile` to include the `--reload` flag:
+
+```dockerfile
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🆘 Support
+
+If you encounter any issues or have questions:
+
+- 📧 Create an issue in this repository
+- 📖 Check the [API documentation](http://localhost:8000/docs)
+- 💬 Refer to the [FastAPI documentation](https://fastapi.tiangolo.com/)
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [PangeranJJ4321](https://github.com/PangeranJJ4321)**
+
+⭐ **Star this repository if you found it helpful!**
+
+</div>
