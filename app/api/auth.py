@@ -104,6 +104,8 @@ async def verify_token_endpoint(current_user: User = Depends(get_current_user)):
     """Verify if token is valid"""
     return {"valid": True, "user_id": current_user.id}
 
+
+
 @router.get("/validate-reset-token") 
 async def validate_reset_token_endpoint(
     token: str, 
