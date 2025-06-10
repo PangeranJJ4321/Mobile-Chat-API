@@ -1,4 +1,3 @@
-# Gunakan base image Python slim biar ringan
 FROM python:3.11-slim
 
 # Biar UTF-8 aman dan zona waktu
